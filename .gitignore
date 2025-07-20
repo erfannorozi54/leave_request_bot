@@ -9,4 +9,4 @@
 .env
 .venv
 .vscode
-tools/__pycache__/*
+**/__pycache__/

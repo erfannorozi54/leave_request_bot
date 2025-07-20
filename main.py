@@ -21,9 +21,9 @@ if "LLM_API_TOKEN" not in os.environ:
 api_key = os.getenv("LLM_API_TOKEN") or exit("LLM_API_TOKEN not set.")
 
 # Load username and password from environment
-username = os.getenv("USERNAME") or exit("USERNAME not set in environment.")
+username = os.getenv("CLIENT") or exit("USERNAME not set in environment.")
 password = os.getenv("PASSWORD") or exit("PASSWORD not set in environment.")
-
+print(username, password)
 # 🎛️ Rate limiter: 1 request per minute
 rate_limiter = InMemoryRateLimiter(
     requests_per_second=1 / 15,  # ~0.0167 requests/second
@@ -32,9 +32,9 @@ rate_limiter = InMemoryRateLimiter(
 )
 
 llm = ChatOpenAI(
-    model="gpt-4.1",
+    model="openai/gpt-4.1-nano",
     api_key=SecretStr(api_key),
-    base_url=os.getenv("OPENROUTER_BASE_URL", "https://api.metisai.ir/openai/v1"),
+    base_url=os.getenv("LLM_BASE_URL", "https://openrouter.ai/api/v1"),
     default_headers={
         "HTTP-Referer": "https://your-app.example",
         "X-Title": "Vacation-robot",
@@ -48,7 +48,7 @@ prompt_template = ChatPromptTemplate.from_messages(
     [
         (
             "system",
-            "You are a leave requesting robot for clercks on https://erp.asigi.net/hr/admin site you should go to this link and login to this site, username is {username} and password is {password}. then try to insert my leaves in this site.",
+            "You are a leave requesting robot for clercks on https://erp.asigi.net/hr/admin site you should go to this link and login ,to this site, username is '{username}' and password is '{password}'. then try to insert my leaves in this site. try to use all kind of tools to do the correct action."
         ),
         ("user", "{text}"),
     ]
