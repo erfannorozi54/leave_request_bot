@@ -111,6 +111,7 @@ while True:
             print(f"DEBUG: {event}")
             if "messages" in event and isinstance(event["messages"][-1], AIMessage) and event["messages"][-1].tool_calls:
                 print("---Tool Call---")
+                event["messages"][-1].pretty_print()
             elif "messages" in event:
                 event["messages"][-1].pretty_print()
 
